@@ -159,32 +159,69 @@ if (typeof gsap !== 'undefined') {
   gsap.set(['#hdesc', '#hbtns', '#hstats'], { opacity: 0, y: 30 });
 }
 
-/* ─── FLOATING BOOKS: GSAP yoyo ─── */
+/* ─── HIỆU ỨNG SLIDER LUÂN PHIÊN (GIỐNG VIDEO LON NƯỚC) ─── */
 if (typeof gsap !== 'undefined') {
-  const fbRots = [
-    { ry: -22, rx: 6 },
-    { ry: 18, rx: -4 },
-    { ry: -14, rx: 8 },
-    { ry: 22, rx: -5 },
-    { ry: -12, rx: 4 }
-  ];
-  document.querySelectorAll('.fb').forEach((b, i) => {
-    const r = fbRots[i];
-    gsap.set(b, { rotateY: r.ry, rotateX: r.rx });
-    // continuous float
-    gsap.to(b, {
-      y: -20 - i * 3,
-      duration: 2.6 + i * 0.35,
-      ease: 'sine.inOut',
-      yoyo: true, repeat: -1,
-      delay: i * 0.55
+  const books = document.querySelectorAll('.h-r .fb');
+  let currentIndex = 0;
+  let autoplayInterval;
+
+  function updateCarousel() {
+    books.forEach((book, i) => {
+      // Tính toán vị trí tương đối
+      let diff = i - currentIndex;
+      if (diff < -Math.floor(books.length / 2)) diff += books.length;
+      if (diff > Math.floor(books.length / 2)) diff -= books.length;
+
+      let x = 0, z = -300, scale = 0.5, opacity = 0, zIndex = 1, rotateY = 0;
+
+      if (diff === 0) {
+        // CUỐN ACTIVE Ở GIỮA (Giữ nguyên scale 1.35 vì sách gốc đã to rồi)
+        x = 0; z = 0; scale = 1.35; opacity = 1; zIndex = 10; rotateY = -10;
+      } else if (diff === 1) {
+        // Cuốn bên PHẢI (Nới x từ 240 lên 290)
+        x = 290; z = -120; scale = 0.85; opacity = 0.5; zIndex = 5; rotateY = -25;
+      } else if (diff === -1) {
+        // Cuốn bên TRÁI (Nới x từ -240 lên -290)
+        x = -290; z = -120; scale = 0.85; opacity = 0.5; zIndex = 5; rotateY = 5;
+      } else if (diff === 2) {
+        // Cuốn xa bên PHẢI (Nới x từ 380 lên 460)
+        x = 460; z = -200; scale = 0.6; opacity = 0; zIndex = 2; rotateY = -35;
+      } else if (diff === -2) {
+        // Cuốn xa bên TRÁI (Nới x từ -380 lên -460)
+        x = -460; z = -200; scale = 0.6; opacity = 0; zIndex = 2; rotateY = 15;
+      }
+
+      gsap.to(book, {
+        x: x, z: z, scale: scale, opacity: opacity,
+        zIndex: zIndex, rotateY: rotateY,
+        duration: 0.9, ease: "power3.inOut" 
+      });
     });
-    // hover tilt
-    b.addEventListener('mouseenter', () => {
-      gsap.to(b, { rotateY: r.ry - 12, rotateX: r.rx + 5, scale: 1.06, duration: 0.45, ease: 'power2.out' });
-    });
-    b.addEventListener('mouseleave', () => {
-      gsap.to(b, { rotateY: r.ry, rotateX: r.rx, scale: 1, duration: 0.5, ease: 'power2.out' });
+  }
+
+  updateCarousel();
+
+  // Tự động luân phiên mỗi 1.5 giây
+  const startAutoplay = () => {
+    autoplayInterval = setInterval(() => {
+      currentIndex = (currentIndex + 1) % books.length;
+      updateCarousel();
+    }, 1500);
+  };
+  startAutoplay();
+
+  // Hiệu ứng lơ lửng nhẹ
+  gsap.to(books, {
+    y: -15, duration: 2.5, yoyo: true, repeat: -1, ease: "sine.inOut", stagger: 0.15
+  });
+
+  // Tương tác khi trỏ chuột và click
+  books.forEach((book, i) => {
+    book.addEventListener('mouseenter', () => clearInterval(autoplayInterval));
+    book.addEventListener('mouseleave', startAutoplay);
+    book.addEventListener('click', () => {
+      currentIndex = i;
+      updateCarousel();
     });
   });
 }
@@ -205,8 +242,15 @@ if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
 
   // Category cards stagger
   gsap.from('.cat-c', {
-    scrollTrigger: { trigger: '.cat-g', start: 'top 82%' },
-    y: 60, opacity: 0, duration: 0.8, ease: 'power3.out', stagger: 0.13
+    scrollTrigger: { trigger: '.cat-grid', start: 'top 85%' }, /* Đã sửa .cat-g thành .cat-grid */
+    y: 60, opacity: 0, duration: 0.8, ease: 'power3.out', stagger: 0.15,
+    onComplete: () => {
+      // Ép cứng hiển thị rõ nét 100% khi hoạt ảnh chạy xong, chống kẹt mờ
+      document.querySelectorAll('.cat-c').forEach(c => {
+        c.style.opacity = 1; 
+        c.style.transform = 'none';
+      });
+    }
   });
 
   // Featured book cards stagger
@@ -427,3 +471,75 @@ if (typeof gsap !== 'undefined') {
     });
   });
 }
+/* ─── XỬ LÝ HỆ THỐNG ĐĂNG NHẬP & PHÂN QUYỀN FORM REVIEW ─── */
+function openLoginModal(e) {
+  if(e) e.preventDefault();
+  const m = document.getElementById('auth-modal');
+  if(m) m.classList.add('on');
+}
+
+function closeLoginModal() {
+  const m = document.getElementById('auth-modal');
+  if(m) m.classList.remove('on');
+}
+
+function doLogin(mockName) {
+  let name = mockName;
+  if (!name) {
+    const nameInput = document.getElementById('auth-name');
+    if (!nameInput) return;
+    name = nameInput.value.trim();
+  }
+  
+  if(!name) { alert('Please enter your name to sign in!'); return; }
+  
+  // Lưu phiên đăng nhập ảo vào trình duyệt
+  localStorage.setItem('honiver_user', name);
+  
+  const nameInput = document.getElementById('auth-name');
+  if (nameInput) nameInput.value = '';
+  
+  closeLoginModal();
+  checkLoginState();
+}
+
+function doLogout(e) {
+  if(e) e.preventDefault();
+  localStorage.removeItem('honiver_user');
+  checkLoginState();
+}
+
+function checkLoginState() {
+  const user = localStorage.getItem('honiver_user');
+  const loginBtns = document.querySelectorAll('.nav-login-btn, .n-cta');
+  
+  loginBtns.forEach(btn => {
+    // Không ghi đè nút 'More Information' ở menu nếu nó không phải nút Login
+    if (btn.classList.contains('nav-login-btn') || btn.textContent === 'Login' || btn.textContent.includes('Hi, ')) {
+      if(user) {
+        btn.innerHTML = `Hi, ${user} <span style="font-size:0.75em; font-weight:normal; text-decoration:underline; margin-left:8px; opacity:0.6;" onclick="doLogout(event)">(Logout)</span>`;
+        btn.onclick = (e) => e.preventDefault();
+        btn.style.padding = "10px 16px";
+      } else {
+        btn.innerHTML = 'Login';
+        btn.onclick = openLoginModal;
+      }
+    }
+  });
+
+  // ĐỒNG BỘ REVIEW FORM: Nếu đang ở trang chi tiết sản phẩm, tự động mở khóa form
+  const reqArea = document.getElementById('rv-login-req');
+  const formArea = document.getElementById('rv-form-area');
+  if(reqArea && formArea) {
+    if(user) {
+      reqArea.style.display = 'none';
+      formArea.style.display = 'block';
+    } else {
+      reqArea.style.display = 'block';
+      formArea.style.display = 'none';
+    }
+  }
+}
+
+// Chạy rà soát trạng thái ngay khi khởi động trang web
+document.addEventListener('DOMContentLoaded', checkLoginState);

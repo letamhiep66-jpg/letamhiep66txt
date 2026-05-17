@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Honiver — Product</title>
+<title>Honiver - Product</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css?v=6">
@@ -87,6 +87,7 @@
   <ul class="n-links">
     <li><a href="index.html">Home</a></li>
     <li><a href="category.html?cat=all">Categories</a></li>
+    <li><a href="#" class="nav-login-btn" onclick="openLoginModal(e)">Login</a></li>
   </ul>
 </nav>
 
@@ -129,11 +130,31 @@
   
   <div class="p-reviews">
     <h3 class="rv-title">Customer Reviews</h3>
-    <div id="dynamic-reviews">
-      <!-- Injected by JS -->
+    
+    <div class="rv-write-box">
+      <div id="rv-login-req" class="rv-login-req">
+        Please <a href="#" onclick="openLoginModal(event)">Login</a> to write a review for this book.
+      </div>
+      
+      <div id="rv-form-area" style="display:none;">
+        <div style="margin-bottom:12px; font-size: .95rem; font-weight:600; color:var(--navy);">
+          Your Rating: 
+          <select id="rv-star-select">
+            <option value="5">⭐⭐⭐⭐⭐ (Excellent)</option>
+            <option value="4">⭐⭐⭐⭐ (Good)</option>
+            <option value="3">⭐⭐⭐ (Average)</option>
+            <option value="2">⭐⭐ (Poor)</option>
+            <option value="1">⭐ (Terrible)</option>
+          </select>
+        </div>
+        <textarea id="rv-text" placeholder="Share your thoughts about this book..." rows="4"></textarea>
+        <button class="btn-buy" style="padding:12px 30px; border:none;" onclick="submitReview()">Post Review</button>
+      </div>
     </div>
+
+    <div id="dynamic-reviews">
+      </div>
   </div>
-</div>
 
 <script src="books.js?v=6"></script>
 <script src="main.js?v=6"></script>
@@ -170,12 +191,59 @@
     document.getElementById('bc-cat').href = 'category.html?cat=' + book.cat;
     document.getElementById('bc-title').textContent = book.title;
 
-    // Generate Fake Reviews Specific to this Book
+    // Dữ liệu Review ảo (Fake Reviews)
     const fakes = [
-      { name: "Minh T.", stars: "⭐⭐⭐⭐⭐", date: "2 weeks ago", text: `I absolutely loved reading ${book.title}. The insights are incredibly valuable and it was delivered fast via Shopee in perfect condition.` },
-      { name: "Linh H.", stars: "⭐⭐⭐⭐⭐", date: "1 month ago", text: `Highly recommended! If you like ${book.author}'s other works, this is a must-have for your collection. Paper quality is top-notch.` },
-      { name: "Duy N.", stars: (book.rating < 4.8 ? "⭐⭐⭐⭐" : "⭐⭐⭐⭐⭐"), date: "2 months ago", text: `A great addition to my bookshelf. Found it through Honiver's recommendation and it didn't disappoint!` }
+      { name: "Alexander W.", stars: "⭐⭐⭐⭐⭐", date: "2 weeks ago", text: `I absolutely loved reading ${book.title}. The insights are incredibly valuable and it was delivered fast via Shopee in perfect condition.` },
+      { name: "John D.", stars: "⭐⭐⭐⭐⭐", date: "1 month ago", text: `Highly recommended! If you like ${book.author}'s other works, this is a must-have for your collection. Paper quality is top-notch.` },
+      { name: "Jane S.", stars: (book.rating < 4.8 ? "⭐⭐⭐⭐" : "⭐⭐⭐⭐⭐"), date: "2 months ago", text: `A great addition to my bookshelf. Found it through Honiver's recommendation and it didn't disappoint!` }
     ];
+    
+    // HÀM HIỂN THỊ TẤT CẢ REVIEW (Bao gồm cả review do user tự viết)
+    window.renderAllReviews = function() {
+      // Lấy review do người dùng tự viết từ LocalStorage
+      const localReviews = JSON.parse(localStorage.getItem('reviews_' + bookId)) || [];
+      // Gộp review của người dùng (lên trước) và review ảo (xuống sau)
+      const allReviews = [...localReviews, ...fakes];
+      
+      document.getElementById('dynamic-reviews').innerHTML = allReviews.map(r => `
+        <div class="rv-item">
+          <div class="rv-head">
+            <div class="rv-user"><div class="rv-avatar">${r.name.charAt(0).toUpperCase()}</div> ${r.name} <span class="rv-stars">${r.stars}</span></div>
+            <div class="rv-date">${r.date}</div>
+          </div>
+          <div class="rv-txt">${r.text}</div>
+        </div>
+      `).join('');
+    };
+
+    // HÀM GỬI REVIEW
+    window.submitReview = function() {
+      const text = document.getElementById('rv-text').value.trim();
+      const starVal = document.getElementById('rv-star-select').value;
+      const userName = localStorage.getItem('honiver_user');
+      
+      if(!text) { alert('Please write a review before posting!'); return; }
+      
+      // Tạo cục dữ liệu Review mới
+      const newReview = {
+        name: userName,
+        stars: '⭐'.repeat(starVal),
+        date: 'Just now',
+        text: text
+      };
+      
+      // Kéo dữ liệu cũ từ LocalStorage lên, nhét dữ liệu mới vào đầu mảng, rồi lưu lại
+      const localReviews = JSON.parse(localStorage.getItem('reviews_' + bookId)) || [];
+      localReviews.unshift(newReview);
+      localStorage.setItem('reviews_' + bookId, JSON.stringify(localReviews));
+      
+      // Xóa chữ trong form và in lại danh sách
+      document.getElementById('rv-text').value = '';
+      renderAllReviews();
+    };
+
+    // Chạy lần đầu khi load trang
+    renderAllReviews();
     
     document.getElementById('dynamic-reviews').innerHTML = fakes.map(r => `
       <div class="rv-item">
@@ -190,5 +258,39 @@
     document.querySelector('.p-card').innerHTML = '<h2>Book not found.</h2><a href="index.html">Go back to Home</a>';
   }
 </script>
+<div class="modal-bg" id="auth-modal">
+  <div class="modal-box auth-box">
+    <button class="modal-x" onclick="closeLoginModal()">✕</button>
+    
+    <div class="auth-left">
+      <div class="auth-whale-cosmic">🐋</div>
+    </div>
+    
+    <div class="auth-right">
+      <h2 class="auth-title">Welcome to Honiver</h2>
+      
+      <button class="auth-btn" onclick="doLogin('Google User')">
+        <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 15.02 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+        Sign In with Google
+      </button>
+      
+      <button class="auth-btn" onclick="doLogin('Apple User')">
+        <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#000" d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.04 2.34-.85 3.73-.74 1.61.13 2.91.82 3.72 2.18-3.2 1.83-2.67 5.86.38 7.06-.69 1.58-1.57 2.91-2.91 3.67zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.32 2.31-1.78 4.31-3.74 4.25z"/></svg>
+        Sign In with Apple
+      </button>
+      
+      <div class="auth-divider">or</div>
+      
+      <div class="auth-input-group">
+        <input type="text" id="auth-name" class="auth-input" placeholder="Enter your name..." onkeypress="if(event.key==='Enter') doLogin()">
+        <button class="auth-submit" onclick="doLogin()">Sign In with Name</button>
+      </div>
+      
+      <p class="auth-terms">
+        By clicking, you agree to our <a href="#">Terms of Service</a> and acknowledge that you have read and understand our <a href="#">Privacy Policy</a>.
+      </p>
+    </div>
+  </div>
+</div>
 </body>
 </html>

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Honiver — Category</title>
+<title>Honiver - Category</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css?v=6">
@@ -100,9 +100,10 @@
       <div class="tb-title" id="page-title">ALL BOOKS</div>
       <div class="tb-sort">
         Sort by:
-        <button class="sort-btn active" onclick="sortBooks('pop')">Popular</button>
-        <button class="sort-btn" onclick="sortBooks('new')">Latest</button>
-        <button class="sort-btn" onclick="sortBooks('price')">Price</button>
+        <button class="sort-btn active" onclick="sortBooks('all', this)">All</button>
+        <button class="sort-btn" onclick="sortBooks('pop', this)">Popular</button>
+        <button class="sort-btn" onclick="sortBooks('new', this)">Latest</button>
+        <button class="sort-btn" onclick="sortBooks('price', this)">Price</button>
       </div>
     </div>
     
@@ -172,19 +173,38 @@
     });
   }
   
-  function sortBooks(type) {
+  function sortBooks(type, btnElement) {
+    // 1. Xử lý đổi màu nút (An toàn, không bị lỗi khi tự động chạy lúc load trang)
     document.querySelectorAll('.sort-btn').forEach(btn => btn.classList.remove('active'));
-    event.target.classList.add('active');
+    if (btnElement) {
+      btnElement.classList.add('active');
+    } else {
+      // Dành cho lúc mới load trang (không có click chuột)
+      const defaultBtn = document.querySelector(`.sort-btn[onclick*="${type}"]`);
+      if (defaultBtn) defaultBtn.classList.add('active');
+    }
     
-    if(type === 'pop') currentBooks.sort((a,b) => b.sold - a.sold);
-    if(type === 'new') currentBooks.sort((a,b) => b.rating - a.rating);
-    if(type === 'price') currentBooks.sort((a,b) => a.price - b.price);
+    // 2. Refresh lại danh sách gốc để hủy bỏ các bộ lọc cũ
+    currentBooks = booksData.filter(b => {
+      let matchCat = (currentCat === 'all' || b.cat === currentCat);
+      let matchSearch = true;
+      if (searchQuery) {
+        matchSearch = b.title.toLowerCase().includes(searchQuery) || b.author.toLowerCase().includes(searchQuery);
+      }
+      return matchCat && matchSearch;
+    });
     
+    // 3. Tiến hành phân loại (Nếu là 'all' thì giữ nguyên mảng gốc)
+    if (type === 'pop') currentBooks.sort((a,b) => b.sold - a.sold);
+    if (type === 'new') currentBooks.sort((a,b) => b.rating - a.rating);
+    if (type === 'price') currentBooks.sort((a,b) => a.price - b.price);
+    
+    // 4. In sách ra màn hình
     renderBooks();
   }
   
-  // Initial render (default sort by popular)
-  sortBooks('pop');
+  // Khởi động trang: Mặc định chọn hiển thị 'All' (Tất cả) 
+  sortBooks('all');
 </script>
 </body>
 </html>

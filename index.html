@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Honiver — Knowledge on Every Page</title>
+<title>Honiver - Knowledge on Every Page</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -14,7 +14,7 @@
 @keyframes whaleFloat{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-14px) rotate(2deg)}}
 @keyframes ceGlow{0%,100%{opacity:.2}50%{opacity:.7}}
 
-/* ═══════ INTRO — BOOK OPENING ═══════ */
+/* ═══════ INTRO - BOOK OPENING ═══════ */
 .intro{
   position:fixed;inset:0;background:#010a18;
   z-index:10000;display:flex;align-items:center;justify-content:center;
@@ -108,15 +108,6 @@
   color:rgba(255,255,255,.3);z-index:3;white-space:nowrap;
   animation:ceGlow 2.5s ease-in-out infinite;
 }
-
-/* ═══════ CATEGORY FIX ═══════ */
-#categories .cat-bg{opacity:.65!important;}
-.cat-grid{
-  display:grid!important;
-  grid-template-columns:repeat(4,1fr)!important;
-  gap:20px;margin-top:50px;
-}
-@media(max-width:900px){.cat-grid{grid-template-columns:repeat(2,1fr)!important;}}
 
 /* ═══════ SEARCH DROPDOWN ═══════ */
 .n-search{position:relative;}
@@ -291,6 +282,7 @@
     <li><a href="#shop-main">All Books</a></li>
     <li><a href="#about">About</a></li>
     <li><a href="category.html?cat=all" class="n-cta">More Information</a></li>
+    <li><a href="#" class="nav-login-btn" onclick="openLoginModal(e)">Login</a></li>
   </ul>
   <div class="n-ham" id="ham"><span></span><span></span><span></span></div>
 </nav>
@@ -307,7 +299,7 @@
       <div class="clip-wrap"><span class="h-display blue" id="hd3">WORLD</span></div>
       <div class="clip-wrap"><span class="h-serif-line" id="hd4">waiting to be explored.</span></div>
     </div>
-    <p class="h-desc" id="hdesc">Honiver curates the finest books — business, psychology, literature — at the best prices directly from Shopee.</p>
+    <p class="h-desc" id="hdesc">Honiver curates the finest books - business, psychology, literature - at the best prices directly from Shopee.</p>
     <div class="h-btns" id="hbtns">
       <a href="#featured" class="btn-fill">Explore Books</a>
       <a href="category.html?cat=all" class="btn-line">Browse Categories</a>
@@ -318,12 +310,16 @@
       <div><div class="hs-n">98<em>%</em></div><div class="hs-l">Satisfaction</div></div>
     </div>
   </div>
-  <div class="h-r">
-    <div class="fb fb1" data-id="b1"><div class="fb-face b-c1"><div class="fb-ph">📘</div></div><div class="fb-sp b-c2"></div><div class="fb-sh"></div></div>
-    <div class="fb fb2" data-id="b2"><div class="fb-face b-c3"><div class="fb-ph">📗</div></div><div class="fb-sp b-c4"></div><div class="fb-sh"></div></div>
-    <div class="fb fb3" data-id="b3"><div class="fb-face b-c5"><div class="fb-ph">📓</div></div><div class="fb-sp b-c2"></div><div class="fb-sh"></div></div>
-    <div class="fb fb4" data-id="b4"><div class="fb-face b-c2"><div class="fb-ph">📘</div></div><div class="fb-sp b-c1"></div><div class="fb-sh"></div></div>
-    <div class="fb fb5" data-id="b5"><div class="fb-face b-c4"><div class="fb-ph">📔</div></div><div class="fb-sp b-c3"></div><div class="fb-sh"></div></div>
+  <div class="h-r" id="book-orbit-container">
+    <div class="fb" data-id="b1"><div class="fb-face b-c1"><div class="fb-ph">📘</div></div><div class="fb-sp b-c2"></div><div class="fb-sh"></div></div>
+    <div class="fb" data-id="b2"><div class="fb-face b-c3"><div class="fb-ph">📗</div></div><div class="fb-sp b-c4"></div><div class="fb-sh"></div></div>
+    <div class="fb" data-id="b3"><div class="fb-face b-c5"><div class="fb-ph">📓</div></div><div class="fb-sp b-c2"></div><div class="fb-sh"></div></div>
+    <div class="fb" data-id="b4"><div class="fb-face b-c2"><div class="fb-ph">📘</div></div><div class="fb-sp b-c1"></div><div class="fb-sh"></div></div>
+    <div class="fb" data-id="b24"><div class="fb-face b-c4"><div class="fb-ph">📔</div></div><div class="fb-sp b-c3"></div><div class="fb-sh"></div></div>
+    <div class="fb" data-id="b6"><div class="fb-face b-c1"><div class="fb-ph">📕</div></div><div class="fb-sp b-c5"></div><div class="fb-sh"></div></div>
+    <div class="fb" data-id="b7"><div class="fb-face b-c2"><div class="fb-ph">📙</div></div><div class="fb-sp b-c1"></div><div class="fb-sh"></div></div>
+    <div class="fb" data-id="b13"><div class="fb-face b-c3"><div class="fb-ph">💵</div></div><div class="fb-sp b-c4"></div><div class="fb-sh"></div></div>
+    <div class="fb" data-id="b5"><div class="fb-face b-c5"><div class="fb-ph">📓</div></div><div class="fb-sp b-c2"></div><div class="fb-sh"></div></div>
   </div>
 </section>
 
@@ -353,22 +349,22 @@
   <div class="sec-title" data-reveal>CATEGORIES</div>
   <div class="cat-grid">
     <a class="cat-c" href="category.html?cat=business">
-      <div class="cat-bg" style="background-image:url('https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&auto=format&fit=crop');"></div>
+      <div class="cat-bg" style="background-image:url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=800&auto=format&fit=crop');"></div>
       <div class="cat-top"><span class="cat-n">01</span></div>
       <div class="cat-bot"><h3>BUSINESS &<br>FINANCE</h3><span class="cat-lbl">120+ titles</span><div class="cat-arr">→</div></div>
     </a>
     <a class="cat-c" href="category.html?cat=self-help">
-      <div class="cat-bg" style="background-image:url('https://images.unsplash.com/photo-1499209974431-9dddcece7f88?w=600&auto=format&fit=crop');"></div>
+      <div class="cat-bg" style="background-image:url('https://images.unsplash.com/photo-1505159940484-eb2b9f2588e2?q=80&w=800&auto=format&fit=crop');"></div>
       <div class="cat-top"><span class="cat-n">02</span></div>
       <div class="cat-bot"><h3>SELF-HELP &<br>GROWTH</h3><span class="cat-lbl">180+ titles</span><div class="cat-arr">→</div></div>
     </a>
     <a class="cat-c" href="category.html?cat=literature">
-      <div class="cat-bg" style="background-image:url('https://images.unsplash.com/photo-1474932430478-367d16b99031?w=600&auto=format&fit=crop');"></div>
+      <div class="cat-bg" style="background-image:url('https://images.unsplash.com/photo-1457369804613-52c61a468e7d?q=80&w=800&auto=format&fit=crop');"></div>
       <div class="cat-top"><span class="cat-n">03</span></div>
       <div class="cat-bot"><h3>LITERATURE<br>& FICTION</h3><span class="cat-lbl">95+ titles</span><div class="cat-arr">→</div></div>
     </a>
     <a class="cat-c" href="category.html?cat=skills">
-      <div class="cat-bg" style="background-image:url('https://images.unsplash.com/photo-1507413245164-6160d8298b31?w=600&auto=format&fit=crop');"></div>
+      <div class="cat-bg" style="background-image:url('https://images.unsplash.com/photo-1499750310107-5fef28a66643?q=80&w=800&auto=format&fit=crop');"></div>
       <div class="cat-top"><span class="cat-n">04</span></div>
       <div class="cat-bot"><h3>SKILLS &<br>WELLNESS</h3><span class="cat-lbl">110+ titles</span><div class="cat-arr">→</div></div>
     </a>
@@ -410,11 +406,11 @@
 <!-- ══════════ HORIZONTAL SCROLL STRIP ══════════ -->
 <div id="hscroll">
   <div class="hs-track" id="hst">
-    <div class="hs-slide" style="background:linear-gradient(140deg,#0B2048,#0B1829)"><div class="hs-label">CATEGORY 01</div><div class="hs-num">01</div><div class="hs-c"><div class="hs-cat">Business &amp; Finance</div><div class="hs-title">BUILD YOUR<br>EMPIRE</div><div class="hs-desc">From startups to Wall Street — the books that shaped modern business.</div></div></div>
-    <div class="hs-slide" style="background:linear-gradient(140deg,#0A1C40,#0B1829)"><div class="hs-label">CATEGORY 02</div><div class="hs-num">02</div><div class="hs-c"><div class="hs-cat">Self-help &amp; Growth</div><div class="hs-title">UNLOCK YOUR<br>BEST SELF</div><div class="hs-desc">Habits, mindset, discipline — the tools to become who you want to be.</div></div></div>
+    <div class="hs-slide" style="background:linear-gradient(140deg,#0B2048,#0B1829)"><div class="hs-label">CATEGORY 01</div><div class="hs-num">01</div><div class="hs-c"><div class="hs-cat">Business &amp; Finance</div><div class="hs-title">BUILD YOUR<br>EMPIRE</div><div class="hs-desc">From startups to Wall Street - the books that shaped modern business.</div></div></div>
+    <div class="hs-slide" style="background:linear-gradient(140deg,#0A1C40,#0B1829)"><div class="hs-label">CATEGORY 02</div><div class="hs-num">02</div><div class="hs-c"><div class="hs-cat">Self-help &amp; Growth</div><div class="hs-title">UNLOCK YOUR<br>BEST SELF</div><div class="hs-desc">Habits, mindset, discipline - the tools to become who you want to be.</div></div></div>
     <div class="hs-slide" style="background:linear-gradient(140deg,#091830,#0B1829)"><div class="hs-label">CATEGORY 03</div><div class="hs-num">03</div><div class="hs-c"><div class="hs-cat">Literature &amp; Fiction</div><div class="hs-title">STORIES<br>THAT LAST</div><div class="hs-desc">Timeless narratives from the greatest minds across generations.</div></div></div>
-    <div class="hs-slide" style="background:linear-gradient(140deg,#081428,#0B1829)"><div class="hs-label">CATEGORY 04</div><div class="hs-num">04</div><div class="hs-c"><div class="hs-cat">Skills &amp; Wellness</div><div class="hs-title">MASTER<br>EVERY DAY</div><div class="hs-desc">Communication, health, focus — practical tools for a better life.</div></div></div>
-    <div class="hs-slide" style="background:linear-gradient(140deg,#0B2048,#0B1829)"><div class="hs-label">EXPLORE MORE</div><div class="hs-num">+</div><div class="hs-c"><div class="hs-cat">Honiver</div><div class="hs-title">500+<br>TITLES</div><div class="hs-desc">New arrivals every week — never run out of your next great read.</div></div></div>
+    <div class="hs-slide" style="background:linear-gradient(140deg,#081428,#0B1829)"><div class="hs-label">CATEGORY 04</div><div class="hs-num">04</div><div class="hs-c"><div class="hs-cat">Skills &amp; Wellness</div><div class="hs-title">MASTER<br>EVERY DAY</div><div class="hs-desc">Communication, health, focus - practical tools for a better life.</div></div></div>
+    <div class="hs-slide" style="background:linear-gradient(140deg,#0B2048,#0B1829)"><div class="hs-label">EXPLORE MORE</div><div class="hs-num">+</div><div class="hs-c"><div class="hs-cat">Honiver</div><div class="hs-title">500+<br>TITLES</div><div class="hs-desc">New arrivals every week - never run out of your next great read.</div></div></div>
   </div>
 </div>
 
@@ -422,8 +418,8 @@
 <section id="quote">
   <div class="q-grid"></div>
   <div class="q-mark">"</div>
-  <p class="q-txt" id="qtxt">A book is not just read — it's <em>lived</em>. Honiver exists to help you find the ones that change everything.</p>
-  <div class="q-by">— The Honiver Philosophy</div>
+  <p class="q-txt" id="qtxt">A book is not just read - it's <em>lived</em>. Honiver exists to help you find the ones that change everything.</p>
+  <div class="q-by">- The Honiver Philosophy -</div>
 </section>
 
 <!-- ══════════ ALL BOOKS ══════════ -->
@@ -474,7 +470,7 @@
         <div class="hiw-num">03</div>
         <div class="hiw-icon">🛒</div>
         <h3>Buy & Grow</h3>
-        <p>Purchase instantly via verified Shopee affiliate links — authentic products, fast nationwide delivery, and hassle-free returns guaranteed every time.</p>
+        <p>Purchase instantly via verified Shopee affiliate links - authentic products, fast nationwide delivery, and hassle-free returns guaranteed every time.</p>
         <div class="hiw-accent"></div>
       </div>
     </div>
@@ -504,7 +500,7 @@
     <p class="sec-desc">We curate experiences that have the power to transform how you think and live.</p>
     <ul class="ab-list">
       <li><div class="ab-icon">✓</div>Every book personally reviewed by our editorial team before being listed.</li>
-      <li><div class="ab-icon">✓</div>Direct Shopee affiliate links — genuine products, fast delivery, clear returns.</li>
+      <li><div class="ab-icon">✓</div>Direct Shopee affiliate links - genuine products, fast delivery, clear returns.</li>
       <li><div class="ab-icon">✓</div>A community of 12,000+ readers sharing reviews and recommendations daily.</li>
       <li><div class="ab-icon">✓</div>Updated weekly with the hottest new releases from local and global markets.</li>
     </ul>
@@ -610,7 +606,7 @@ document.querySelectorAll('.fbtn').forEach(btn => {
   });
 });
 
-/* INITIAL RENDER — all books visible immediately */
+/* INITIAL RENDER - all books visible immediately */
 renderShop('all');
 
 /* ─── FEATURED click → product page ─── */
@@ -621,5 +617,39 @@ document.querySelectorAll('.bk').forEach(c => {
   });
 });
 </script>
+<div class="modal-bg" id="auth-modal">
+  <div class="modal-box auth-box">
+    <button class="modal-x" onclick="closeLoginModal()">✕</button>
+    
+    <div class="auth-left">
+      <div class="auth-whale-cosmic">🐋</div>
+    </div>
+    
+    <div class="auth-right">
+      <h2 class="auth-title">Welcome to Honiver</h2>
+      
+      <button class="auth-btn" onclick="doLogin('Google User')">
+        <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 15.02 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+        Sign In with Google
+      </button>
+      
+      <button class="auth-btn" onclick="doLogin('Apple User')">
+        <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#000" d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.04 2.34-.85 3.73-.74 1.61.13 2.91.82 3.72 2.18-3.2 1.83-2.67 5.86.38 7.06-.69 1.58-1.57 2.91-2.91 3.67zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.32 2.31-1.78 4.31-3.74 4.25z"/></svg>
+        Sign In with Apple
+      </button>
+      
+      <div class="auth-divider">or</div>
+      
+      <div class="auth-input-group">
+        <input type="text" id="auth-name" class="auth-input" placeholder="Enter your name..." onkeypress="if(event.key==='Enter') doLogin()">
+        <button class="auth-submit" onclick="doLogin()">Sign In with Name</button>
+      </div>
+      
+      <p class="auth-terms">
+        By clicking, you agree to our <a href="#">Terms of Service</a> and acknowledge that you have read and understand our <a href="#">Privacy Policy</a>.
+      </p>
+    </div>
+  </div>
+</div>
 </body>
 </html>

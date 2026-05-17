@@ -634,7 +634,7 @@ nav.scrolled .n-ham span {
   margin-top: 5px;
 }
 
-/* Right — 3D books */
+/* Right - 3D books */
 .h-r {
   position: relative;
   height: 600px;
@@ -728,45 +728,26 @@ nav.scrolled .n-ham span {
   background: linear-gradient(145deg, #0d2440, #06121f);
 }
 
-/* positions */
-.fb1 {
-  width: 158px;
-  height: 222px;
-  top: 2%;
-  left: 16%;
-  box-shadow: -20px 30px 60px rgba(0, 0, 0, .6)
+/* ─── CẤU HÌNH VỊ TRÍ CHO SLIDER LUÂN PHIÊN ─── */
+.h-r {
+  position: relative;
+  height: 600px;
+  z-index: 2;
+  perspective: 1500px; /* Tạo độ sâu không gian 3D */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.fb2 {
-  width: 138px;
-  height: 196px;
-  top: 20%;
-  left: 57%;
-  box-shadow: 20px 26px 50px rgba(0, 0, 0, .55)
-}
-
-.fb3 {
-  width: 150px;
-  height: 212px;
-  top: 49%;
-  left: 2%;
-  box-shadow: -16px 24px 44px rgba(0, 0, 0, .5)
-}
-
-.fb4 {
-  width: 168px;
-  height: 236px;
-  top: 44%;
-  left: 39%;
-  box-shadow: 24px 34px 64px rgba(0, 0, 0, .6)
-}
-
-.fb5 {
-  width: 124px;
-  height: 178px;
-  top: 66%;
-  left: 69%;
-  box-shadow: -12px 20px 38px rgba(0, 0, 0, .45)
+.fb {
+  position: absolute;
+  /* TĂNG MẠNH KÍCH THƯỚC (Rộng x Cao) */
+  width: 210px !important;  
+  height: 296px !important; 
+  /* ĐẨY TOÀN BỘ ĐỘI HÌNH LÊN TRÊN ĐỂ LẤP KHOẢNG TRỐNG */
+  margin-top: -80px;        
+  transform-style: preserve-3d;
+  cursor: pointer;
 }
 
 /* ═══════════════════════════════════════
@@ -874,24 +855,34 @@ section {
 
 .cat-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(4, 1fr) !important; /* Ép cứng luôn luôn 4 cột */
+  gap: 24px;
   margin-top: 50px;
+  width: 100%;
+}
+
+@media(max-width: 1024px) {
+  .cat-grid { grid-template-columns: repeat(2, 1fr) !important; } /* Màn hình iPad tự chia 2 cột */
+}
+
+@media(max-width: 600px) {
+  .cat-grid { grid-template-columns: 1fr !important; } /* Màn hình điện thoại 1 cột */
 }
 
 .cat-c {
-  background: var(--navy);
+  background: var(--navy) !important; /* Khóa màu nền xanh đen để chữ trắng luôn nổi bật */
   border: 1px solid var(--bdr);
   border-radius: 12px;
-  padding: 30px;
+  padding: 32px 28px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  min-height: 220px;
-  transition: all .3s;
+  min-height: 240px;
+  transition: all .35s var(--ease-out);
   text-decoration: none;
   position: relative;
   overflow: hidden;
+  opacity: 1; 
 }
 
 .cat-bg {
@@ -899,8 +890,8 @@ section {
   inset: 0;
   background-size: cover;
   background-position: center;
-  opacity: 0.35;
-  transition: opacity 0.4s, transform 0.6s;
+  opacity: 0.55; /* Độ sáng mặc định vừa phải */
+  transition: opacity 0.4s, transform 0.6s var(--ease-out);
   z-index: 1;
 }
 
@@ -908,12 +899,13 @@ section {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(11, 24, 41, .9), transparent);
+  /* Lớp gradient đen mượt mà từ dưới lên để làm nổi bật chữ màu trắng */
+  background: linear-gradient(to top, rgba(11, 24, 41, 0.95) 0%, rgba(11, 24, 41, 0.15) 100%);
 }
 
 .cat-c:hover .cat-bg {
-  opacity: 0.6;
-  transform: scale(1.05);
+  opacity: 0.85; /* Sáng bừng lên khi trỏ chuột */
+  transform: scale(1.08); /* Phóng to ảnh nghệ thuật */
 }
 
 .cat-c:hover {
@@ -1021,6 +1013,7 @@ section {
 }
 
 .bk {
+  position: relative; /* THÊM DÒNG NÀY ĐỂ NEO GIỮ CÁC BADGE NHƯ TOP PICK, BESTSELLER */
   cursor: pointer;
   opacity: 0;
   transform: translateY(48px);
@@ -2013,4 +2006,184 @@ footer {
     width: 290px;
     padding: 30px
   }
+}
+/* ═══════════════════════════════════════
+   SPLIT LOGIN & REVIEW FORM INTEGRATION
+═══════════════════════════════════════ */
+.nav-login-btn {
+  background: rgba(24, 83, 227, 0.1) !important;
+  color: var(--blue) !important;
+  border: 1px solid var(--blue);
+}
+.nav-login-btn:hover {
+  background: var(--blue) !important;
+  color: #fff !important;
+}
+
+/* Khung Login Chia Đôi */
+.auth-box {
+  max-width: 850px !important;
+  width: 95%;
+  padding: 0 !important;
+  display: flex;
+  flex-direction: row;
+  background: #020a16 !important; /* Tông màu đêm tối sâu thẳm */
+  overflow: hidden;
+  text-align: left;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Cột trái: Cá voi giữa bầu trời sao */
+.auth-left {
+  width: 50%;
+  background: url('https://images.unsplash.com/photo-1506318137071-a8e063b4bec0?q=80&w=800&auto=format&fit=crop') center/cover;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset -20px 0 40px rgba(2, 10, 22, 0.8);
+}
+.auth-whale-cosmic {
+  font-size: 5.5rem;
+  filter: drop-shadow(0 0 25px rgba(45, 107, 240, 0.95)) drop-shadow(0 0 50px rgba(100, 180, 255, 0.5));
+  animation: whaleFloat 4s ease-in-out infinite; /* Dùng lại hiệu ứng lướt sóng có sẵn */
+  user-select: none;
+}
+
+.auth-right {
+  width: 50%;
+  padding: 50px 45px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+}
+.auth-box .modal-x {
+  top: 15px;
+  right: 20px;
+  color: rgba(255, 255, 255, 0.4);
+  z-index: 10;
+}
+.auth-box .modal-x:hover { color: #fff; }
+.auth-title {
+  font-family: var(--f-serif);
+  font-size: 2.1rem;
+  font-style: italic;
+  color: #fff;
+  text-align: center;
+  margin-bottom: 25px;
+}
+.auth-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  padding: 13px;
+  margin-bottom: 14px;
+  background: #fff;
+  color: #000;
+  border: none;
+  border-radius: 8px;
+  font-family: var(--f-body);
+  font-size: .95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity .2s;
+}
+.auth-btn:hover { opacity: 0.9; }
+.auth-divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.25);
+  font-size: .8rem;
+  margin: 8px 0 16px;
+}
+.auth-divider::before, .auth-divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+.auth-divider:not(:empty)::before { margin-right: .8em; }
+.auth-divider:not(:empty)::after { margin-left: .8em; }
+.auth-input-group { display: flex; flex-direction: column; gap: 10px; }
+.auth-input {
+  background: rgba(255, 255, 255, 0.04);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 13px 16px;
+  border-radius: 8px;
+  font-family: var(--f-body);
+}
+.auth-input:focus { border-color: var(--blue); outline: none; }
+.auth-submit {
+  background: var(--blue);
+  color: #fff;
+  padding: 13px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-family: var(--f-body);
+  cursor: pointer;
+  margin-bottom: 20px;
+  transition: background .2s;
+}
+.auth-submit:hover { background: var(--blue2); }
+.auth-terms { font-size: .7rem; color: rgba(255, 255, 255, 0.35); text-align: center; line-height: 1.6; }
+.auth-terms a { color: #4CAF50; text-decoration: none; }
+.auth-terms a:hover { text-decoration: underline; }
+
+/* ─── STYLE CHO KHU VỰC REVIEW FORM (TRANG PRODUCT) ─── */
+.rv-write-box {
+  background: #fff;
+  border: 1px solid var(--bdr);
+  border-radius: 12px;
+  padding: 28px;
+  margin-bottom: 35px;
+  box-shadow: 0 4px 20px rgba(24, 83, 227, 0.02);
+}
+.rv-login-req {
+  text-align: center;
+  font-size: 1rem;
+  color: var(--muted);
+  padding: 10px 0;
+}
+.rv-login-req a {
+  color: var(--blue);
+  font-weight: 600;
+  text-decoration: underline;
+}
+.rv-form-area select {
+  padding: 10px 14px;
+  border-radius: 6px;
+  border: 1px solid var(--bdr);
+  font-family: var(--f-body);
+  color: var(--navy);
+  outline: none;
+  margin-bottom: 16px;
+  background: var(--off);
+  cursor: pointer;
+}
+.rv-form-area textarea {
+  width: 100%;
+  padding: 16px;
+  border-radius: 8px;
+  border: 1px solid var(--bdr);
+  font-family: var(--f-body);
+  font-size: .95rem;
+  color: var(--navy);
+  margin-bottom: 16px;
+  outline: none;
+  resize: vertical;
+}
+.rv-form-area textarea:focus {
+  border-color: var(--blue);
+}
+
+@media(max-width: 768px) {
+  .auth-box { flex-direction: column; }
+  .auth-left { width: 100%; height: 180px; box-shadow: inset 0 -20px 30px rgba(2, 10, 22, 0.8); }
+  .auth-whale-cosmic { font-size: 4rem; }
+  .auth-right { width: 100%; padding: 35px 25px; }
 }
