@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Honiver — Product</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css?v=6">
+<style>
+  body { background: #F4F7FF; }
+  nav { background: #fff; box-shadow: 0 1px 0 var(--bdr); position: sticky; }
+  nav .n-logo { color: var(--navy); }
+  nav .n-links a { color: var(--muted); }
+  nav .n-links a:hover { color: var(--navy); }
+  nav .n-ham span { background: var(--navy); }
+  
+  .prod-page { max-width: 1200px; margin: 40px auto; padding: 0 5%; }
+  
+  /* Breadcrumbs */
+  .bc { font-size: .85rem; color: var(--muted); margin-bottom: 24px; display: flex; gap: 8px; align-items: center; }
+  .bc a { color: var(--blue); text-decoration: none; }
+  .bc a:hover { text-decoration: underline; }
+  
+  /* Product Card Container */
+  .p-card { background: #fff; border-radius: 12px; border: 1px solid var(--bdr); padding: 40px; display: grid; grid-template-columns: 360px 1fr; gap: 50px; box-shadow: 0 8px 30px rgba(0,0,0,0.04); }
+  
+  /* Left - Image */
+  .p-img-box { position: relative; perspective: 1000px; }
+  .p-img { width: 100%; border-radius: 8px; box-shadow: 0 20px 40px rgba(0,0,0,0.15); transition: transform .4s ease-out; transform-style: preserve-3d; }
+  .p-img:hover { transform: rotateY(-8deg) rotateX(4deg) translateZ(10px); }
+  
+  /* Right - Info */
+  .p-info { display: flex; flex-direction: column; align-items: flex-start; }
+  .p-cat { font-size: .75rem; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; color: var(--blue); margin-bottom: 12px; border: 1px solid var(--blue); padding: 4px 10px; border-radius: 4px; display: inline-block; }
+  .p-ttl { font-family: var(--f-display); font-size: 3rem; color: var(--navy); line-height: 1.1; margin-bottom: 8px; }
+  .p-auth { font-family: var(--f-serif); font-style: italic; font-size: 1.2rem; color: var(--muted); margin-bottom: 20px; }
+  
+  .p-stats { display: flex; align-items: center; gap: 20px; font-size: .95rem; margin-bottom: 24px; }
+  .p-rating { color: #ee4d2d; font-weight: 600; display: flex; align-items: center; gap: 6px; }
+  .p-stat-div { width: 1px; height: 14px; background: var(--bdr); }
+  .p-sold { color: var(--navy); }
+  
+  /* Price Box (Shopee style) */
+  .p-price-box { background: #fafafa; padding: 20px 24px; border-radius: 8px; width: 100%; display: flex; align-items: baseline; gap: 16px; margin-bottom: 30px; }
+  .p-old { font-size: 1.1rem; color: #929292; text-decoration: line-through; }
+  .p-new { font-size: 2.4rem; font-weight: 500; color: #ee4d2d; }
+  .p-discount { background: #ee4d2d; color: #fff; font-size: .75rem; font-weight: 700; padding: 3px 6px; border-radius: 3px; text-transform: uppercase; }
+  
+  .p-desc { font-size: 1rem; color: var(--muted); line-height: 1.8; margin-bottom: 40px; max-width: 600px; }
+  
+  /* Buttons */
+  .p-actions { display: flex; gap: 16px; width: 100%; }
+  .btn-cart { flex: 1; padding: 18px; border: 1px solid #ee4d2d; background: rgba(238, 77, 45, 0.08); color: #ee4d2d; border-radius: 6px; font-weight: 600; font-size: 1rem; cursor: pointer; transition: all .2s; }
+  .btn-cart:hover { background: rgba(238, 77, 45, 0.15); }
+  .btn-buy { flex: 1; padding: 18px; background: #ee4d2d; color: #fff; border: none; border-radius: 6px; font-weight: 600; font-size: 1rem; cursor: pointer; text-decoration: none; text-align: center; box-shadow: 0 8px 20px rgba(238, 77, 45, 0.3); transition: all .2s; }
+  .btn-buy:hover { background: #d73a1c; transform: translateY(-2px); box-shadow: 0 12px 24px rgba(238, 77, 45, 0.4); }
+  
+  @media(max-width: 900px) {
+    .p-card { grid-template-columns: 1fr; padding: 24px; gap: 30px; }
+    .p-img-box { max-width: 300px; margin: 0 auto; }
+    .p-actions { flex-direction: column; }
+  }
+  
+  /* Reviews Section */
+  .p-reviews { margin-top: 40px; background: #fff; border-radius: 12px; border: 1px solid var(--bdr); padding: 40px; box-shadow: 0 8px 30px rgba(0,0,0,0.04); }
+  .rv-title { font-family: var(--f-display); font-size: 2rem; color: var(--navy); margin-bottom: 24px; border-bottom: 1px solid var(--bdr); padding-bottom: 12px; }
+  .rv-item { border-bottom: 1px solid rgba(0,0,0,0.05); padding: 20px 0; }
+  .rv-item:last-child { border-bottom: none; }
+  .rv-head { display: flex; justify-content: space-between; margin-bottom: 10px; }
+  .rv-user { font-weight: 600; color: var(--navy); display: flex; align-items: center; gap: 10px; }
+  .rv-avatar { width: 36px; height: 36px; border-radius: 50%; background: #e0e8f5; display: flex; align-items: center; justify-content: center; font-weight: 700; color: var(--blue); }
+  .rv-stars { color: #ee4d2d; font-size: .9rem; }
+  .rv-date { font-size: .8rem; color: var(--muted); }
+  .rv-txt { font-size: .95rem; color: var(--muted); line-height: 1.6; }
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a href="index.html" class="n-logo"><span class="n-pip"></span>HONIVER</a>
+  <div class="n-search" style="display:flex; align-items:center; background:#f0f2f5; border-radius:20px; padding:6px 16px; margin:0 20px; flex:1; max-width:400px;">
+    <span style="font-size:14px; opacity:0.5; margin-right:8px;">🔍</span>
+    <input type="text" id="searchInput" placeholder="Search books by title or author..." autocomplete="off" style="border:none; background:transparent; outline:none; font-family:var(--f-body); font-size:0.85rem; width:100%; color:var(--navy);" onkeypress="if(event.key==='Enter') window.location.href='category.html?search='+this.value">
+    <div class="search-res" id="search-res"></div>
+  </div>
+  <ul class="n-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="category.html?cat=all">Categories</a></li>
+  </ul>
+</nav>
+
+<div class="prod-page">
+  <div class="bc" id="breadcrumb">
+    <a href="index.html">Home</a> &gt; <a href="category.html?cat=all" id="bc-cat">Category</a> &gt; <span id="bc-title">Loading...</span>
+  </div>
+  
+  <div class="p-card">
+    <div class="p-img-box">
+      <img src="" id="p-cover" class="p-img" alt="Book Cover">
+    </div>
+    <div class="p-info">
+      <div class="p-cat" id="p-cat">Category</div>
+      <h1 class="p-ttl" id="p-title">Loading Title...</h1>
+      <div class="p-auth" id="p-author">Author</div>
+      
+      <div class="p-stats">
+        <div class="p-rating">
+          ⭐⭐⭐⭐⭐ <span id="p-rating-num">5.0</span>
+        </div>
+        <div class="p-stat-div"></div>
+        <div class="p-sold"><span id="p-sold-num">0</span> Sold</div>
+      </div>
+      
+      <div class="p-price-box">
+        <span class="p-old" id="p-old">₫0</span>
+        <span class="p-new" id="p-new">₫0</span>
+        <span class="p-discount" id="p-discount">0% OFF</span>
+      </div>
+      
+      <p class="p-desc" id="p-desc">Description loading...</p>
+      
+      <div class="p-actions">
+        <button class="btn-cart" onclick="alert('Added to Cart!')">🛒 Add To Cart</button>
+        <a href="#" class="btn-buy" id="p-buy" target="_blank" rel="noopener">Buy on Shopee</a>
+      </div>
+    </div>
+  </div>
+  
+  <div class="p-reviews">
+    <h3 class="rv-title">Customer Reviews</h3>
+    <div id="dynamic-reviews">
+      <!-- Injected by JS -->
+    </div>
+  </div>
+</div>
+
+<script src="books.js?v=6"></script>
+<script src="main.js?v=6"></script>
+<script>
+  function formatVND(n) { return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(n); }
+
+  // Get book ID from URL
+  const urlParams = new URLSearchParams(window.location.search);
+  const bookId = urlParams.get('id');
+  
+  const book = booksData.find(b => b.id === bookId);
+  
+  if (book) {
+    document.title = book.title + " | Honiver";
+    document.getElementById('p-cover').src = book.cover;
+    document.getElementById('p-cat').textContent = book.catLabel;
+    document.getElementById('p-title').textContent = book.title;
+    document.getElementById('p-author').textContent = 'by ' + book.author;
+    document.getElementById('p-rating-num').textContent = book.rating.toFixed(1);
+    
+    const soldStr = book.sold > 1000 ? (book.sold/1000).toFixed(1) + 'k' : book.sold;
+    document.getElementById('p-sold-num').textContent = soldStr;
+    
+    document.getElementById('p-old').textContent = formatVND(book.priceOld);
+    document.getElementById('p-new').textContent = formatVND(book.price);
+    
+    const discount = Math.round((1 - (book.price / book.priceOld)) * 100);
+    document.getElementById('p-discount').textContent = discount + '% OFF';
+    
+    document.getElementById('p-desc').innerHTML = book.desc;
+    document.getElementById('p-buy').href = book.affiliate;
+    
+    document.getElementById('bc-cat').textContent = book.catLabel;
+    document.getElementById('bc-cat').href = 'category.html?cat=' + book.cat;
+    document.getElementById('bc-title').textContent = book.title;
+
+    // Generate Fake Reviews Specific to this Book
+    const fakes = [
+      { name: "Minh T.", stars: "⭐⭐⭐⭐⭐", date: "2 weeks ago", text: `I absolutely loved reading ${book.title}. The insights are incredibly valuable and it was delivered fast via Shopee in perfect condition.` },
+      { name: "Linh H.", stars: "⭐⭐⭐⭐⭐", date: "1 month ago", text: `Highly recommended! If you like ${book.author}'s other works, this is a must-have for your collection. Paper quality is top-notch.` },
+      { name: "Duy N.", stars: (book.rating < 4.8 ? "⭐⭐⭐⭐" : "⭐⭐⭐⭐⭐"), date: "2 months ago", text: `A great addition to my bookshelf. Found it through Honiver's recommendation and it didn't disappoint!` }
+    ];
+    
+    document.getElementById('dynamic-reviews').innerHTML = fakes.map(r => `
+      <div class="rv-item">
+        <div class="rv-head">
+          <div class="rv-user"><div class="rv-avatar">${r.name.charAt(0)}</div> ${r.name} <span class="rv-stars">${r.stars}</span></div>
+          <div class="rv-date">${r.date}</div>
+        </div>
+        <div class="rv-txt">${r.text}</div>
+      </div>
+    `).join('');
+  } else {
+    document.querySelector('.p-card').innerHTML = '<h2>Book not found.</h2><a href="index.html">Go back to Home</a>';
+  }
+</script>
+</body>
+</html>
