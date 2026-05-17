@@ -8,6 +8,15 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css?v=6">
 <style>
+    .nav-login-btn {
+  background: transparent !important;
+  border: 1.5px solid var(--blue) !important;
+  color: var(--blue) !important;
+}
+.nav-login-btn:hover {
+  background: var(--blue) !important;
+  color: #fff !important;
+}
   body { background: #F4F7FF; }
   /* Override nav to always be solid */
   nav { background: #fff; box-shadow: 0 1px 0 var(--bdr); position: sticky; }
@@ -70,9 +79,10 @@
     <div class="search-res" id="search-res"></div>
   </div>
   <ul class="n-links">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="category.html?cat=all">Categories</a></li>
-  </ul>
+  <li><a href="index.html">Home</a></li>
+  <li><a href="category.html?cat=all">Categories</a></li>
+  <li><a href="#" class="n-cta nav-login-btn" onclick="openLoginModal(event)">Login</a></li>
+</ul>
 </nav>
 
 <div class="cat-page">

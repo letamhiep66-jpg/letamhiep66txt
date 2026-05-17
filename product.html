@@ -8,6 +8,15 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css?v=6">
 <style>
+    .nav-login-btn {
+  background: transparent !important;
+  border: 1.5px solid var(--blue) !important;
+  color: var(--blue) !important;
+}
+.nav-login-btn:hover {
+  background: var(--blue) !important;
+  color: #fff !important;
+}
   body { background: #F4F7FF; }
   nav { background: #fff; box-shadow: 0 1px 0 var(--bdr); position: sticky; }
   nav .n-logo { color: var(--navy); }
@@ -73,6 +82,23 @@
   .rv-stars { color: #ee4d2d; font-size: .9rem; }
   .rv-date { font-size: .8rem; color: var(--muted); }
   .rv-txt { font-size: .95rem; color: var(--muted); line-height: 1.6; }
+  #rv-text {
+  width: 100%;
+  min-height: 140px;
+  border-radius: 12px;
+  border: 1.5px solid #b8c8e8;
+  padding: 16px;
+  font-family: var(--f-body);
+  font-size: .95rem;
+  color: var(--navy);
+  resize: vertical;
+  outline: none;
+  transition: border-color .25s;
+  line-height: 1.7;
+}
+#rv-text:focus {
+  border-color: var(--blue);
+}
 </style>
 </head>
 <body>
@@ -87,7 +113,7 @@
   <ul class="n-links">
     <li><a href="index.html">Home</a></li>
     <li><a href="category.html?cat=all">Categories</a></li>
-    <li><a href="#" class="nav-login-btn" onclick="openLoginModal(e)">Login</a></li>
+    <li><a href="#" class="n-cta nav-login-btn" onclick="openLoginModal(event)">Login</a></li>
   </ul>
 </nav>
 
@@ -148,7 +174,8 @@
           </select>
         </div>
         <textarea id="rv-text" placeholder="Share your thoughts about this book..." rows="4"></textarea>
-        <button class="btn-buy" style="padding:12px 30px; border:none;" onclick="submitReview()">Post Review</button>
+        <button class="btn-buy" style="border:none; width:100%; border-radius:50px; padding:16px; display:block;" onclick="submitReview()">Post Review</button>
+
       </div>
     </div>
 

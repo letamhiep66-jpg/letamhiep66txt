@@ -10,6 +10,23 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <link rel="stylesheet" href="style.css?v=9">
 <style>
+    a.n-cta.nav-login-btn {
+  background: transparent !important;
+  border: 1.5px solid rgba(255,255,255,.6) !important;
+  color: rgba(255,255,255,.9) !important;
+}
+a.n-cta.nav-login-btn:hover {
+  background: rgba(255,255,255,.12) !important;
+  color: #fff !important;
+}
+nav.scrolled a.n-cta.nav-login-btn {
+  border-color: var(--blue) !important;
+  color: var(--blue) !important;
+}
+nav.scrolled a.n-cta.nav-login-btn:hover {
+  background: var(--blue) !important;
+  color: #fff !important;
+}
 @keyframes twinkle{0%,100%{opacity:.12}50%{opacity:.95}}
 @keyframes whaleFloat{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-14px) rotate(2deg)}}
 @keyframes ceGlow{0%,100%{opacity:.2}50%{opacity:.7}}
@@ -282,7 +299,7 @@
     <li><a href="#shop-main">All Books</a></li>
     <li><a href="#about">About</a></li>
     <li><a href="category.html?cat=all" class="n-cta">More Information</a></li>
-    <li><a href="#" class="nav-login-btn" onclick="openLoginModal(e)">Login</a></li>
+    <li><a href="#" class="n-cta nav-login-btn" onclick="openLoginModal(e)">Login</a></li>
   </ul>
   <div class="n-ham" id="ham"><span></span><span></span><span></span></div>
 </nav>
